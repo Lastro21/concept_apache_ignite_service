@@ -2,24 +2,14 @@ package ru.sbrf.fullkeeper;
 
 import org.apache.ignite.Ignite;
 import org.apache.ignite.IgniteCache;
-import org.apache.ignite.configuration.DeploymentMode;
 import org.apache.ignite.spi.discovery.tcp.ipfinder.vm.TcpDiscoveryVmIpFinder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
 import org.apache.ignite.Ignition;
-import org.apache.ignite.configuration.DataStorageConfiguration;
 import org.apache.ignite.configuration.IgniteConfiguration;
 import org.apache.ignite.spi.discovery.tcp.TcpDiscoverySpi;
-import org.apache.ignite.spi.discovery.tcp.ipfinder.multicast.TcpDiscoveryMulticastIpFinder;
-
-
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.UUID;
+
 
 @SpringBootApplication
 public class FullkeeperApplication {
@@ -28,21 +18,21 @@ public class FullkeeperApplication {
 
         SpringApplication.run(FullkeeperApplication.class, args);
 
-        TcpDiscoverySpi spi = new TcpDiscoverySpi();
+        final TcpDiscoverySpi spi = new TcpDiscoverySpi();
 
-        TcpDiscoveryVmIpFinder ipFinder = new TcpDiscoveryVmIpFinder();
+        final TcpDiscoveryVmIpFinder ipFinder = new TcpDiscoveryVmIpFinder();
 
         ipFinder.setAddresses(Arrays.asList("10.53.123.84", "10.53.123.54:47500..47509"));
 
         spi.setIpFinder(ipFinder);
 
-        IgniteConfiguration cfg = new IgniteConfiguration();
+        final IgniteConfiguration cfg = new IgniteConfiguration();
 
         cfg.setDiscoverySpi(spi);
 
-        Ignite ignite = Ignition.start(cfg);
+        final Ignite ignite = Ignition.start(cfg);
 
-        IgniteCache<Integer, String> cache = ignite.getOrCreateCache("myCache");
+        final IgniteCache<Integer, String> cache = ignite.getOrCreateCache("myCache");
 
         cache.put(1, "Hello World 1");
         cache.put(2, "Hello World 2");
@@ -55,7 +45,6 @@ public class FullkeeperApplication {
         cache.put(9, "Hello World 9");
 
         System.out.println("Cache size = " + cache.size());
-
 
     }
 
